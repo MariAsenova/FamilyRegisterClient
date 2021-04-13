@@ -1,0 +1,58 @@
+﻿@page "/Families"
+@using System.Collections
+@using Familyregister.Data
+@using Models
+@inject IFamilyService FamilyService
+
+<h3>Families</h3>
+
+@if (familiesList == null)
+{
+    <p>
+        <em>Loading ...</em>
+    </p>
+}
+else if (!familiesList.Any())
+{
+    <p>
+        <em>No families to show</em>
+    </p>
+}
+else
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>House number</th>
+            <th>Street name</th>
+            <th>Number of adults</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var family in familiesList)
+        {
+            <tr>
+                <td>@family.HouseNumber</td>
+                <td>@family.StreetName</td>
+                <td>@family.Adults.Count</td>
+                <!-- Here loop through list of adults -->
+                <td>
+                    <button>
+                        <i class="oi oi-pencil" style="color:#1b6ec2"/>
+                    </button>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@code {
+    private IList<Family> familiesList;
+
+    protected override async Task OnInitializedAsync()
+    {
+        familiesList = await FamilyService.GetFamiliesAsync();
+    }
+
+}

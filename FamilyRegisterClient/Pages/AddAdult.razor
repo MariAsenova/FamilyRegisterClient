@@ -1,0 +1,47 @@
+﻿@page "/AddAdult"
+
+
+@using Models
+@using Familyregister.Data
+
+@inject NavigationManager NavigationManager
+@inject IFamilyService FamilyService
+
+<h3>AddAdult</h3>
+
+<EditForm Model="@newAdult" OnValidSubmit="@AddNewAdult">
+    <DataAnnotationsValidator/> <ValidationSummary/>
+    <div class="form-group"> Adult Id:<br/> <InputNumber @bind-Value="newAdult.Id"/> </div>
+    <div class="form-group"> First name:<br/> <InputTextArea rows="1" @bind-Value="newAdult.FirstName"/> </div>
+    <div class="form-group"> Last name:<br/> <InputTextArea rows="1" @bind-Value="newAdult.LastName"/> </div>
+    <div class="form-group"> Hair color:<br/> <InputTextArea rows="1" @bind-Value="newAdult.HairColor"/> </div>
+    <div class="form-group"> Eye color:<br/> <InputTextArea rows="1" @bind-Value="newAdult.EyeColor"/> </div>
+    <div class="form-group"> Age:<br/> <InputNumber rows="1" @bind-Value="newAdult.Age"/> </div>
+    <div class="form-group"> Weight:<br/> <InputNumber rows="1" @bind-Value="newAdult.Weight"/> </div>
+    <div class="form-group"> Height:<br/> <InputNumber rows="1" @bind-Value="newAdult.Height"/> </div>
+    <div class="form-group"> Sex:<br/> <InputTextArea rows="1" @bind-Value="newAdult.Sex"/> </div>
+    <div class="form-group"> Family Street:<br/> <InputTextArea rows="1" @bind-Value="familyToAddTo.StreetName"/> </div>
+    <div class="form-group"> House number:<br/> <InputNumber rows="1" @bind-Value="familyToAddTo.HouseNumber"/> </div>
+    <div class="form-group"> Title:<br/> <InputTextArea rows="1" @bind-Value="newJob.JobTitle"/> </div>
+    <div class="form-group"> Salary :<br/> <InputNumber rows="1" @bind-Value="newJob.Salary"/> </div>
+    <p class="actions">
+        <button class="btn btn-outline-dark" type="submit">Create</button>
+    </p>
+</EditForm>
+
+@code {
+    private Adult newAdult = new Adult();
+    private Job newJob = new Job();
+    private Family familyToAddTo = new Family();
+    
+    private async Task AddNewAdult()
+    {
+        IList<Family> families = await FamilyService.GetFamiliesAsync();
+        Family familyForNewAdult = families.First(familyToAdd => familyToAdd.HouseNumber == familyToAddTo.HouseNumber && familyToAdd.StreetName.Equals(familyToAddTo.StreetName));
+        
+        newAdult.JobTitle = newJob;
+        await FamilyService.AddAdultAsync(newAdult, familyForNewAdult);
+        NavigationManager.NavigateTo("/Adults");
+    }
+
+}

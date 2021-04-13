@@ -1,0 +1,124 @@
+﻿@page "/Adults"
+@using Familyregister.Data
+@using Models
+@inject IFamilyService FamilyService
+@inject NavigationManager NavigationManager
+
+<h3>Adults</h3>
+
+<p>
+    Filter by family street: <input type="text" @oninput="@((arg) => FilterByFamilyStreet(arg))" style="width: 200px"/>
+</p>
+
+@if (families == null)
+{
+    <p>
+        <em>Loading ...</em>
+    </p>
+}
+else if (!families.Any())
+{
+    <p>
+        <em>No adults to show</em>
+    </p>
+}
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Job Title</th>
+        <th>Salary</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Hair Color</th>
+        <th>Eye Color</th>
+        <th>Age</th>
+        <th>Weight</th>
+        <th>Height</th>
+        <th>Sex</th>
+    </tr>
+    </thead>
+    <tbody>
+    @if (familiesToShow != null)
+    {
+        @foreach (var family in familiesToShow)
+        {
+            foreach (var adult in family.Adults)
+            {
+                <tr>
+                    <td>@adult.JobTitle.JobTitle</td>
+                    <td>@adult.JobTitle.Salary</td>
+                    <td>@adult.FirstName</td>
+                    <td>@adult.LastName</td>
+                    <td>@adult.HairColor</td>
+                    <td>@adult.EyeColor</td>
+                    <td>@adult.Age</td>
+                    <td>@adult.Weight</td>
+                    <td>@adult.Height</td>
+                    <td>@adult.Sex</td>
+                    <td>
+                        <button @onclick="@(() => EditAdult(adult.Id))">
+                            <i class="oi oi-pencil" style="color:#1b6ec2"/>
+                        </button>
+                    </td>
+                    <td>
+                        <button @onclick="@(() => RemoveAdult(adult.Id))">
+                            <i class="oi oi-trash" style="color: #ffa02e"></i>
+                        </button>
+                    </td>
+                </tr>
+            }
+        }
+    }
+
+    </tbody>
+</table>
+
+@code {
+    private IList<Family> families;
+    private IList<Family> familiesToShow;
+    private string filterByStreet;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        families = await FamilyService.GetFamiliesAsync();
+        familiesToShow = families;
+    }
+
+    private void EditAdult(int id)
+    {
+        NavigationManager.NavigateTo($"EditAdult/{id}");
+    }
+
+    private async Task RemoveAdult(int adultId)
+    {
+        await FamilyService.RemoveAdultAsync(adultId);
+        
+        // TODO refactor how we update the view after we remove
+        Family first = familiesToShow.First(family => family.Adults.Exists(adult => adult.Id == adultId));
+        Adult adultToRemove = first.Adults.Find(adult => adult.Id == adultId);
+        familiesToShow.First(family => family.Adults.Exists(adult => adult.Id == adultId)).Adults.Remove(adultToRemove);
+    }
+
+    private void FilterByFamilyStreet(ChangeEventArgs changeEventArgs)
+    {
+        filterByStreet = null;
+        try
+        {
+            filterByStreet = changeEventArgs.Value.ToString();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+        ExecuteFilter();
+    }
+
+    private void ExecuteFilter()
+    {
+        familiesToShow = families.Where(family => family.StreetName.Equals(filterByStreet)).ToList();
+    }
+
+}
