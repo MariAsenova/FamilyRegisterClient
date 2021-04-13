@@ -82,13 +82,6 @@ using FamilyRegisterClient.Shared;
 #line default
 #line hidden
 #nullable disable
-#nullable restore
-#line 1 "C:\Users\maria\RiderProjects\FamilyRegisterClient\FamilyRegisterClient\Shared\MainLayout.razor"
-using LoginComponent;
-
-#line default
-#line hidden
-#nullable disable
     public partial class MainLayout : LayoutComponentBase
     {
         #pragma warning disable 1998

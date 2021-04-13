@@ -37,8 +37,8 @@ namespace FamilyRegisterClient
 
             services.AddAuthorization(options =>
                 {
-                    options.AddPolicy("MustBeManager",
-                        a => a.RequireAuthenticatedUser().RequireClaim("Role", "manager"));
+                    options.AddPolicy("MustBeManager", policy => 
+                        policy.RequireAuthenticatedUser().RequireClaim("Role", "manager"));
                 }
             );
         }

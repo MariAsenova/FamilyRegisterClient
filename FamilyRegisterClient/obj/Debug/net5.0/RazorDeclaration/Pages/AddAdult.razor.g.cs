@@ -83,14 +83,14 @@ using FamilyRegisterClient.Shared;
 #line hidden
 #nullable disable
 #nullable restore
-#line 4 "C:\Users\maria\RiderProjects\FamilyRegisterClient\FamilyRegisterClient\Pages\AddAdult.razor"
+#line 2 "C:\Users\maria\RiderProjects\FamilyRegisterClient\FamilyRegisterClient\Pages\AddAdult.razor"
 using Models;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 5 "C:\Users\maria\RiderProjects\FamilyRegisterClient\FamilyRegisterClient\Pages\AddAdult.razor"
+#line 3 "C:\Users\maria\RiderProjects\FamilyRegisterClient\FamilyRegisterClient\Pages\AddAdult.razor"
 using Familyregister.Data;
 
 #line default
@@ -105,7 +105,7 @@ using Familyregister.Data;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 32 "C:\Users\maria\RiderProjects\FamilyRegisterClient\FamilyRegisterClient\Pages\AddAdult.razor"
+#line 30 "C:\Users\maria\RiderProjects\FamilyRegisterClient\FamilyRegisterClient\Pages\AddAdult.razor"
        
     private Adult newAdult = new Adult();
     private Job newJob = new Job();
