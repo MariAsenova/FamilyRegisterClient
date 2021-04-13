@@ -32,7 +32,7 @@ namespace FamilyRegisterClient.Authentication
                 if (!string.IsNullOrEmpty(userAsJson))
                 {
                     User tmp = JsonSerializer.Deserialize<User>(userAsJson);
-                    ValidateLogin(tmp.UserName, tmp.Password);
+                    await ValidateLogin(tmp.UserName, tmp.Password);
                 }
             }
             else
@@ -54,7 +54,7 @@ namespace FamilyRegisterClient.Authentication
                 User user = await userService.ValidateUserAsync(username, password);
                 identity = SetupClaimsForUser(user);
                 string serialisedData = JsonSerializer.Serialize(user);
-                jsRuntime.InvokeVoidAsync("sessionStorage.setItem", "currentUser", serialisedData);
+                await jsRuntime.InvokeVoidAsync("sessionStorage.setItem", "currentUser", serialisedData);
                 cachedUser = user;
             } catch (Exception e) {
                 throw e;

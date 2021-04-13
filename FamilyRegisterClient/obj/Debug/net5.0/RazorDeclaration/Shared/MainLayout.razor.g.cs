@@ -90,21 +90,22 @@ using FamilyRegisterClient.Shared;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 22 "C:\Users\maria\RiderProjects\FamilyRegisterClient\FamilyRegisterClient\Shared\MainLayout.razor"
-       
+#line 21 "C:\Users\maria\RiderProjects\FamilyRegisterClient\FamilyRegisterClient\Shared\MainLayout.razor"
+      
 
-    [CascadingParameter] protected Task<AuthenticationState> AuthStat { get; set; }
+    [CascadingParameter]
+    protected Task<AuthenticationState> AuthStat { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
         var user = (await AuthStat).User;
-        if(!user.Identity.IsAuthenticated)
+        if (!user.Identity.IsAuthenticated)
         {
             NavigationManager.NavigateTo($"/Login");
-    // NavigationManager.NavigateTo($"/Login?returnUrl={Uri.EscapeDataString(NavigationManager.Uri)}");
         }
     }
+
 
 #line default
 #line hidden
