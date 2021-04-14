@@ -33,7 +33,7 @@ namespace FamilyRegisterClient
             services.AddServerSideBlazor();
             services.AddScoped<IFamilyService, CloudFamilyService>();
             services.AddScoped<IUserService, UserService>();
-            services.AddTransient<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
+            services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
 
             services.AddAuthorization(options =>
                 {
