@@ -10,69 +10,69 @@
     Filter by family street: <input type="text" @oninput="@((arg) => FilterByFamilyStreet(arg))" style="width: 200px"/>
 </p>
 
-@if (families == null)
+@if (familiesToShow == null)
 {
     <p>
         <em>Loading ...</em>
     </p>
 }
-else if (!families.Any())
+else if (!familiesToShow.Any())
 {
     <p>
         <em>No adults to show</em>
     </p>
 }
 
-<table class="table">
-    <thead>
-    <tr>
-        <th>Job Title</th>
-        <th>Salary</th>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Hair Color</th>
-        <th>Eye Color</th>
-        <th>Age</th>
-        <th>Weight</th>
-        <th>Height</th>
-        <th>Sex</th>
-    </tr>
-    </thead>
-    <tbody>
-    @if (familiesToShow != null)
-    {
-        @foreach (var family in familiesToShow)
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Job Title</th>
+            <th>Salary</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Hair Color</th>
+            <th>Eye Color</th>
+            <th>Age</th>
+            <th>Weight</th>
+            <th>Height</th>
+            <th>Sex</th>
+        </tr>
+        </thead>
+        <tbody>
+        @if (familiesToShow != null)
         {
-            foreach (var adult in family.Adults)
+            foreach (var family in familiesToShow)
             {
-                <tr>
-                    <td>@adult.JobTitle.JobTitle</td>
-                    <td>@adult.JobTitle.Salary</td>
-                    <td>@adult.FirstName</td>
-                    <td>@adult.LastName</td>
-                    <td>@adult.HairColor</td>
-                    <td>@adult.EyeColor</td>
-                    <td>@adult.Age</td>
-                    <td>@adult.Weight</td>
-                    <td>@adult.Height</td>
-                    <td>@adult.Sex</td>
-                    <td>
-                        <button @onclick="@(() => EditAdult(adult.Id))">
-                            <i class="oi oi-pencil" style="color:#1b6ec2"/>
-                        </button>
-                    </td>
-                    <td>
-                        <button @onclick="@(() => RemoveAdult(adult.Id))">
-                            <i class="oi oi-trash" style="color: #ffa02e"></i>
-                        </button>
-                    </td>
-                </tr>
+                foreach (var adult in family.Adults)
+                {
+                    <tr>
+                        <td>@adult.FirstName</td>
+                        <td>@adult.LastName</td>
+                        <td>@adult.HairColor</td>
+                        <td>@adult.EyeColor</td>
+                        <td>@adult.Age</td>
+                        <td>@adult.Weight</td>
+                        <td>@adult.Height</td>
+                        <td>@adult.Sex</td>
+                        <td>
+                            <button @onclick="@(() => EditAdult(adult.Id))">
+                                <i class="oi oi-pencil" style="color:#1b6ec2"/>
+                            </button>
+                        </td>
+                        <td>
+                            <button @onclick="@(() => RemoveAdult(adult.Id))">
+                                <i class="oi oi-trash" style="color: #ffa02e"></i>
+                            </button>
+                        </td>
+                    </tr>
+                }
             }
         }
-    }
 
-    </tbody>
-</table>
+        </tbody>
+    </table>
+
+
 
 @code {
     private IList<Family> families;
@@ -94,8 +94,8 @@ else if (!families.Any())
     private async Task RemoveAdult(int adultId)
     {
         await FamilyService.RemoveAdultAsync(adultId);
-        
-        // TODO refactor how we update the view after we remove
+
+    // TODO refactor how we update the view after we remove
         Family first = familiesToShow.First(family => family.Adults.Exists(adult => adult.Id == adultId));
         Adult adultToRemove = first.Adults.Find(adult => adult.Id == adultId);
         familiesToShow.First(family => family.Adults.Exists(adult => adult.Id == adultId)).Adults.Remove(adultToRemove);

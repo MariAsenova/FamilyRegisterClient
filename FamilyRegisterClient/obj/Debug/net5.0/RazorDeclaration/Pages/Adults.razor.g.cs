@@ -126,8 +126,8 @@ using Models;
     private async Task RemoveAdult(int adultId)
     {
         await FamilyService.RemoveAdultAsync(adultId);
-        
-        // TODO refactor how we update the view after we remove
+
+    // TODO refactor how we update the view after we remove
         Family first = familiesToShow.First(family => family.Adults.Exists(adult => adult.Id == adultId));
         Adult adultToRemove = first.Adults.Find(adult => adult.Id == adultId);
         familiesToShow.First(family => family.Adults.Exists(adult => adult.Id == adultId)).Adults.Remove(adultToRemove);

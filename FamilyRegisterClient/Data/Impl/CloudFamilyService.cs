@@ -29,7 +29,7 @@ namespace Familyregister.Data.Impl
             string result = await response.Content.ReadAsStringAsync();
             IList<Family> families = JsonSerializer.Deserialize<IList<Family>>(result, new JsonSerializerOptions
             {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                PropertyNameCaseInsensitive = true
             });
 
             return families;
@@ -72,7 +72,7 @@ namespace Familyregister.Data.Impl
             );
 
             HttpResponseMessage response = await client.PatchAsync(
-                $@"https://localhost:5002/families?StreetName={family.StreetName}&HouseNumber={family.HouseNumber}",
+                $"https://localhost:5002/families?StreetName={family.StreetName}&HouseNumber={family.HouseNumber}",
                 content);
 
             if (response.IsSuccessStatusCode)
@@ -81,7 +81,7 @@ namespace Familyregister.Data.Impl
             }
             else
             {
-                Console.WriteLine($@"Error: {response.StatusCode}, {response.ReasonPhrase}");
+                Console.WriteLine($"Error: {response.StatusCode}, {response.ReasonPhrase}");
             }
         }
 
@@ -89,7 +89,7 @@ namespace Familyregister.Data.Impl
         {
             HttpClient client = new HttpClient();
 
-            HttpResponseMessage response = await client.GetAsync($@"https://localhost:5002/families/{id}");
+            HttpResponseMessage response = await client.GetAsync($"https://localhost:5002/families/{id}");
 
             if (response.IsSuccessStatusCode)
             {
@@ -97,7 +97,7 @@ namespace Familyregister.Data.Impl
             }
             else
             {
-                throw new Exception($@"Error: {response.StatusCode}, {response.StatusCode}");
+                throw new Exception($"Error: {response.StatusCode}, {response.StatusCode}");
             }
 
             string result = await response.Content.ReadAsStringAsync();
@@ -112,7 +112,7 @@ namespace Familyregister.Data.Impl
         {
             HttpClient client = new HttpClient();
 
-            HttpResponseMessage response = await client.DeleteAsync($@"https://localhost:5002/families/{id}");
+            HttpResponseMessage response = await client.DeleteAsync($"https://localhost:5002/families/{id}");
 
             if (response.IsSuccessStatusCode)
             {
@@ -120,7 +120,7 @@ namespace Familyregister.Data.Impl
             }
             else
             {
-                throw new Exception($@"Error: {response.StatusCode}, {response.ReasonPhrase}");
+                throw new Exception($"Error: {response.StatusCode}, {response.ReasonPhrase}");
             }
         }
 
@@ -137,7 +137,7 @@ namespace Familyregister.Data.Impl
 
             HttpResponseMessage response =
                 await client.PostAsync(
-                    $@"https://localhost:5002/families?StreetName={family.StreetName}&HouseNumber={family.HouseNumber}",
+                    $"https://localhost:5002/families?StreetName={family.StreetName}&HouseNumber={family.HouseNumber}",
                     content);
 
             if (response.IsSuccessStatusCode)
