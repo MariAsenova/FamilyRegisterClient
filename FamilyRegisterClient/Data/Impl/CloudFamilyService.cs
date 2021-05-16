@@ -46,7 +46,7 @@ namespace Familyregister.Data.Impl
                 Encoding.UTF8,
                 "application/json"
             );
-
+            
             HttpResponseMessage response = await client.PatchAsync("https://localhost:5002/families", contentAdult);
 
             if (response.IsSuccessStatusCode)
